@@ -1,6 +1,6 @@
 //go:build !windows
 
-package tmp
+package td
 
 func isWindowsRetryable(err error) bool {
 	return false

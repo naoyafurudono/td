@@ -1,18 +1,18 @@
-package tmp_test
+package td_test
 
 import (
 	"os"
 	"path/filepath"
 	"testing"
 
-	"github.com/naoyafurudono/tmp"
+	"github.com/naoyafurudono/td"
 )
 
 func TestTempDirInCleanup(t *testing.T) {
 	var dir string
 
 	t.Run("test", func(t *testing.T) {
-		a := tmp.New(t)
+		a := td.New(t)
 		t.Cleanup(func() {
 			dir = a.TempDir()
 		})
@@ -31,7 +31,7 @@ func TestTempDirInCleanup(t *testing.T) {
 func TestTempDirInBenchmark(t *testing.T) {
 	testing.Benchmark(func(b *testing.B) {
 		if !b.Run("test", func(b *testing.B) {
-			a := tmp.New(t)
+			a := td.New(t)
 			// Add a loop so that the test won't fail. See issue 38677.
 			for i := 0; i < b.N; i++ {
 				_ = a.TempDir()
@@ -76,7 +76,7 @@ func testTempDir(t *testing.T) {
 			}
 		}
 	})
-	a := tmp.New(t)
+	a := td.New(t)
 
 	dir := a.TempDir()
 	if dir == "" {

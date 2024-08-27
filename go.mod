@@ -1,3 +1,3 @@
-module github.com/naoyafurudono/tmp
+module github.com/naoyafurudono/td
 
 go 1.22.6

@@ -1,4 +1,4 @@
-package tmp
+package td
 
 import (
 	"fmt"
@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-type A struct {
+type TD struct {
 	t *testing.T
 
 	parent string
@@ -18,51 +18,51 @@ type A struct {
 	mu     sync.Mutex
 }
 
-func New(t *testing.T) *A {
-	return &A{t: t}
+func New(t *testing.T) *TD {
+	return &TD{t: t}
 }
 
-func (a *A) TempDir() string {
+func (td *TD) TempDir() string {
 	// As the standard implementation, use a single parent directory for all
 	// the temporary directories created by a test, each numbered sequentially.
-	a.mu.Lock()
+	td.mu.Lock()
 	var nonExistent bool
-	if a.parent == "" {
+	if td.parent == "" {
 		nonExistent = true
 	} else {
-		_, err := os.Stat(a.parent)
+		_, err := os.Stat(td.parent)
 		nonExistent = os.IsNotExist(err)
 		if err != nil && !nonExistent {
-			a.t.Fatalf("TempDir: %v", err)
+			td.t.Fatalf("TempDir: %v", err)
 		}
 	}
 
 	if nonExistent {
-		a.t.Helper()
+		td.t.Helper()
 
-		a.parent, a.err = os.MkdirTemp("", "")
-		if a.err == nil {
-			a.t.Cleanup(func() {
-				if err := removeAll(a.parent); err != nil {
-					a.t.Errorf("TempDir RemoveAll cleanup: %v", err)
+		td.parent, td.err = os.MkdirTemp("", "")
+		if td.err == nil {
+			td.t.Cleanup(func() {
+				if err := removeAll(td.parent); err != nil {
+					td.t.Errorf("TempDir RemoveAll cleanup: %v", err)
 				}
 			})
 		}
 	}
 
-	if a.err == nil {
-		a.seq++
+	if td.err == nil {
+		td.seq++
 	}
-	seq := a.seq
-	a.mu.Unlock()
+	seq := td.seq
+	td.mu.Unlock()
 
-	if a.err != nil {
-		a.t.Fatalf("TempDir: %v", a.err)
+	if td.err != nil {
+		td.t.Fatalf("TempDir: %v", td.err)
 	}
 
-	dir := fmt.Sprintf("%s%c%03d", a.parent, os.PathSeparator, seq)
+	dir := fmt.Sprintf("%s%c%03d", td.parent, os.PathSeparator, seq)
 	if err := os.Mkdir(dir, 0777); err != nil {
-		a.t.Fatalf("TempDir: %v", err)
+		td.t.Fatalf("TempDir: %v", err)
 	}
 	return dir
 }
