@@ -1,12 +1,12 @@
-# tmp
+# td
 
-tmp provides more stable version of testing/T.TempDir by taking simple implementation.
+td provides is a simpler implementation of testing/T.TempDir.
 
-Standard TempDir uses T.Name() to constaract the temp directory, while this implementation is just piggubacking of os.MkTempDir. This strategy aims to avoid too long directory name failure, due to long test name.
+Standard TempDir uses T.Name() to constaract the temp directory, while this implementation is just piggubacking off of os.MkTempDir. This strategy aims to avoid too long directory name failure, due to long test name like `t.Run("too long test name ...", ...)`.
 
 ## Usage
 
-Use A.TempDir instead of testing T.TempDir.
+Use TD.TempDir instead of testing T.TempDir.
 
 ```go
 package some_test
@@ -20,8 +20,8 @@ import (
 )
 
 func TestSomeThing(t *testing.T) {
-  a := tmp.New(t)
-  dir := a.TempDir()
+  d := td.New(t)
+  dir := d.TempDir()
   ...
 }
 ```
