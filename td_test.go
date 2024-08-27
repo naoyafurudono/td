@@ -3,6 +3,7 @@ package td_test
 import (
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 
 	"github.com/naoyafurudono/td"
@@ -53,6 +54,9 @@ func TestTempDir(t *testing.T) {
 	t.Run("test[]", testTempDir)
 	t.Run("test*", testTempDir)
 	t.Run("äöüéè", testTempDir)
+	
+	longName := strings.Repeat("a", 1000)
+	t.Run(longName, testTempDir)
 }
 
 func testTempDir(t *testing.T) {
