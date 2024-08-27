@@ -16,7 +16,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/naoyafurudono/tmp"
+	"github.com/naoyafurudono/td"
 )
 
 func TestSomeThing(t *testing.T) {
