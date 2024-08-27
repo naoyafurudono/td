@@ -22,6 +22,7 @@ func New(t *testing.T) *TD {
 	return &TD{t: t}
 }
 
+// Behaves as if T.TempDir of standard testing package, expect for this implmentaion does not use t.Name() as the directory name to be created.
 func (td *TD) TempDir() string {
 	// As the standard implementation, use a single parent directory for all
 	// the temporary directories created by a test, each numbered sequentially.
